@@ -1,0 +1,216 @@
+// Variables for colors, z-index, dimensions, and paddings
+$color-bg-light: #fff3e5;
+$color-border: #ddd;
+$color-orange: orange;
+$color-darkorange: darkorange;
+$color-hover: #ea8100;
+$color-scroll-thumb: lightgray;
+$color-scroll-thumb-hover: #888;
+$color-text-white: white;
+$z-index-dropdown: 1000;
+$z-index-select-all: 1001;
+$border-radius-input: 20px;
+$border-radius-dropdown: 15px;
+$border-radius-checkbox: 50%;
+$border-radius-scroll-thumb: 4px;
+$padding-input-right: 30px;
+$padding-dropdown-item: 8px 16px;
+$scrollbar-width: 4px;
+$checkbox-size: 16px;
+$font-size-checkbox: 10px;
+$font-size-icon: 20px;
+$position-icon-right: 10px;
+$margin-right-checkbox: 12px;
+$margin-right-select-all: 8px;
+
+// Custom select input styling
+.custom-select-input {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+
+  input[type="text"] {
+    border-radius: $border-radius-input;
+    background-color: $color-bg-light;
+    border: 1px solid $color-orange;
+    cursor: pointer;
+    width: 100%;
+    padding-right: $padding-input-right;
+  }
+
+  // Dropdown icon styling inside the input
+  .dropdown-icon {
+    position: absolute;
+    right: $position-icon-right;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: $font-size-icon;
+    color: gray;
+    cursor: pointer;
+    font-family: Arial, sans-serif;
+  }
+}
+
+// Dropdown menu styling
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  max-height: 300px;
+  overflow: auto;
+  border-radius: $border-radius-dropdown;
+  border: 1px solid $color-border;
+  background: $color-text-white;
+  z-index: $z-index-dropdown;
+  padding: 0;
+  box-sizing: border-box;
+
+  // Dropdown item styling
+  .dropdown-item {
+    display: flex;
+    align-items: center;
+    background: $color-text-white;
+    padding: $padding-dropdown-item;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+
+    &:hover {
+      background-color: $color-bg-light !important;
+    }
+  }
+}
+
+// Dropdown content container
+.dropdown-content {
+  padding: 0;
+  box-sizing: border-box;
+}
+
+// Sticky select-all option at the top of dropdown
+.dropdown-item.select-all {
+  position: sticky;
+  top: 0;
+  background: $color-text-white;
+  z-index: $z-index-select-all;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  padding: $padding-dropdown-item;
+  margin: 0 !important;
+  cursor: pointer;
+}
+
+// Divider between dropdown items
+.dropdown-divider {
+  margin: 0;
+  border-bottom: 1.4px solid #ececec;
+}
+
+// Scroll container for dropdown with custom scrollbar
+.dropdown-scroll-container {
+  max-height: 200px;
+  overflow-y: auto;
+  padding-right: 3px;
+  box-sizing: border-box;
+  margin-right: 3px;
+  margin-bottom: 8px;
+  margin-top: 8px;
+
+  // Webkit custom scrollbar styles
+  &::-webkit-scrollbar {
+    width: $scrollbar-width;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: none;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: $color-scroll-thumb;
+    border-radius: $border-radius-scroll-thumb;
+
+    &:hover {
+      background: $color-scroll-thumb-hover;
+    }
+  }
+}
+
+// Custom checkbox styling
+.custom-checkbox {
+  margin-right: $margin-right-checkbox;
+  width: $checkbox-size;
+  height: $checkbox-size;
+  border-radius: $border-radius-checkbox;
+  appearance: none;
+  border: 2px solid $color-border;
+  cursor: pointer;
+  position: relative;
+  vertical-align: middle;
+
+  // Checked state of the checkbox
+  &:checked {
+    background-color: $color-hover;
+    border: 2px solid $color-hover;
+
+    // Checkmark inside the checkbox
+    &::after {
+      content: "✔";
+      color: $color-text-white;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: $font-size-checkbox;
+    }
+  }
+}
+
+// Select-all checkbox styling with specific margin
+.select-all-checkbox {
+  margin-right: $margin-right-select-all !important;
+}
+
+// Styling for option text inside dropdown
+.option-text {
+  margin-left: 8px;
+}
+
+// Focused input state styling
+.input-focused {
+  border: 1px solid $color-darkorange !important;
+  box-shadow: 0 0 5px $color-darkorange !important;
+}
+
+// Single select item styling
+.single-select-item {
+  position: relative;
+  padding-left: $padding-input-right !important;
+
+  // Checkbox styling inside single select item
+  .single-checkbox {
+    position: absolute;
+    left: 16px;
+    width: $checkbox-size;
+    height: $checkbox-size;
+    border: 2px solid $color-border;
+    border-radius: $border-radius-checkbox;
+    display: inline-block;
+
+    // Checked state of single select checkbox
+    &.checked {
+      background-color: $color-hover;
+      border-color: $color-hover;
+      color: $color-text-white;
+      text-align: center;
+      line-height: 12px;
+
+      // Checkmark inside single select checkbox
+      &::after {
+        content: "✔";
+        font-size: $font-size-checkbox;
+        color: $color-text-white;
+      }
+    }
+  }
+}
