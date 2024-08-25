@@ -5,53 +5,22 @@
 #' @param selected default selected options
 #' @param multiple for multiple selection mode or single selection mode
 
-vector_to_json <- function(vec) { 
-  if(is.null(vec)){
-    return({})
-  }  
-  # Check if the input is a vector
-  if (!is.vector(vec)) {
-    stop("Input must be a vector")
-  }
-  
-  # Check if the vector is numeric
-  if (is.numeric(vec)) {
-    # Convert numeric vector to JSON array
-    json_string <- paste0("[", paste(vec, collapse = ","), "]")
-  }
-  # Check if the vector is character
-  else if (is.character(vec)) {
-    # Escape double quotes in character elements
-    escaped_chars <- gsub('"', '\\"', vec)
-    # Convert character vector to JSON array
-    json_string <- paste0("[\"", paste(escaped_chars, collapse = "\",\""), "\"]")
-  }
-  # Check if the vector is logical
-  else if (is.logical(vec)) {
-    # Convert logical vector to JSON array
-    json_string <- paste0("[", paste(tolower(as.character(vec)), collapse = ","), "]")
-  }
-  # Handle other types
-  else {
-    stop("Vector type not supported")
-  }
-  
-  return(json_string)
-}
+library(jsonlite)
 
 customSelectInput <- function(inputId, label = NULL, choices = NULL, selected = NULL, multiple = FALSE) {
   
-  # define the input element
+  # Convert selected options to a JSON string
+  selected_json <- toJSON(selected)
+  
   input_element <- tags$input(
     id = paste0(inputId, "-input"), # Add inputId here
     type = "text", readonly = "readonly", class = "form-control",
     placeholder = ifelse(multiple, "Select options", "Select an option"), 
-    `data-selected` = vector_to_json(selected),
-    `data-options` = choices,
+    `data-selected` = selected_json,
+    `data-options` = toJSON(choices),
     `data-multiple` = ifelse(multiple, "true", "false"),
   )
 
-  # define the dropdown content
   dropdown_content <- if (multiple) {
     tags$div(
       id = paste0(inputId, "-dropdown-content"), # Add inputId here
@@ -92,7 +61,6 @@ customSelectInput <- function(inputId, label = NULL, choices = NULL, selected = 
     )
   }
   
-  # return the custom select input
   tagList(
     includeCSS("www/css/customSelect.css"),
     div(
@@ -104,14 +72,18 @@ customSelectInput <- function(inputId, label = NULL, choices = NULL, selected = 
         id = inputId, class = "custom-select-input",
         input_element,
         tags$div(
-          id = paste0(inputId, "-dropdown-menu"),
+          id = paste0(inputId, "-dropdown-menu"), # Add inputId here
           class = "dropdown-menu",
           dropdown_content
         ),
-        tags$span("⌵", class = "dropdown-icon", id = paste0(inputId, "-icon"))
+        tags$span("⌵", class = "dropdown-icon", id = paste0(inputId, "-icon")) # Add inputId here
       )
     ),
     # Link to external JavaScript file
-    includeScript("www/js/customSelect.js")
+    includeScript("www/js/customSelect.js"),
+    tags$script(HTML(sprintf("
+                  CustomSelectInputJS('%s');
+                              ", inputId)))
+  
   )
 }
